@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.container{
+margin-top: 7%;
+
+}
+.signupform{
+margin-top: 5%;
+width: 40%;
+margin-left: 30%;
+border-radius: 4%;
+border-style:ridge;
+border-color: rgb(63, 15, 61);
+padding: 1%;
+
+}
+.tripform{
+  border-style:ridge;
+  border-color: rgb(63, 15, 61);
+  width: 45%;
+  border-radius: 2%;
+  margin: auto;
+  padding: 1%;
+  color: cornflowerblue;
+}
+.cards{
+margin: 40px;
+float:left;
+padding: 10px;
+
+}
+.legend1{
+  display: block;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-top-style: ridge;
+  color: rgb(82, 63, 29);
+  /* border-color: blueviolet; */
+  
+}
+.signupformcss{
+  font-family: 'Lucida Sans', sans-serif;
+  color: rgb(82, 63, 29);
+}
+
+.field{
+  border:1px solid green
+
+}
+
+.btnSpace{
+  margin:10px;
+  margin-left:25%;
+}
+
+.index{
+background: #00467F;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #A5CC82, #00467F);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #A5CC82, #00467F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+height: 600px;
+
+}
+.navb{
+  background: #757F9A;  /* fallback for old browsers */
+   background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #D7DDE8, rgb(142, 146, 156));/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  
+}
+
+.Home-grid{
+margin-top:50px;
+}
+
+.imgs{
+height: 200px;
+
+}
+.logo{
+background-color: rgb(40, 45, 94);
+width: 43%;
+opacity: .8;
+margin: auto;
+border-radius: 10px;
+color: rgb(150, 221, 36);
+
+
+}
+/* table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+} */
+
+
+.contactsTitle{
+  background-color: rgb(141, 189, 28);
+  text-align: center;
+  font: bold;
+}
+
+.inputSms{
+  position:absolute;
+  bottom:0;
+  margin-top: 80%;
+}
