@@ -25,7 +25,6 @@ class Dashboard extends Component {
         tempMesseges: [],
         payStubs:[],
         TWILIONUMBER: "+13145820488",
-        api_Key: 'AIzaSyD5n2AVjF1Ys5OmdhM-VVILV6Og9krTHhk',
        
     }
 

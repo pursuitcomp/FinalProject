@@ -35,9 +35,10 @@ import repository.UserRepository;
 @RestController
 @CrossOrigin
 public class UserController {
-	public static final String ACCOUNT_SID = "AC361718af85b715e42e7c45f83226d8d6";
-    public static final String AUTH_TOKEN = "75a768d7dee0f69d5bd41c1e1a73276b";
-    public static final String TWILIO_NUMBER = "+13145820488";
+	public static final String ACCOUNT_SID = "xxxxxxxxxxxxxxxxxxx";
+    public static final String AUTH_TOKEN = "xxxxxxxxxxxx";
+    public static final String TWILIO_NUMBER = "xxxxxx";
+    
     
 	
 	

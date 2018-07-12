@@ -17,6 +17,6 @@ class MapWraper extends Component {
 }
 // OTHER MOST IMPORTANT: Here we are exporting the App component WITH the GoogleApiWrapper. You pass it down with an object containing your API key
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyD5n2AVjF1Ys5OmdhM-VVILV6Og9krTHhk',
+  apiKey: '',
 })(MapWraper)
 
