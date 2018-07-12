@@ -7,13 +7,12 @@ class index extends Component {
         return (
             <div>
             <Card shadow={0} style={{width: '100%', margin: 'auto'}}>
-            <CardTitle style={{color: '#fff', height: '500px', background: 'url(https://www.trkdispatch.com/images/slide02.jpg) center / cover'}}><span className="logo"><h1>TRANSIT-MASTERS</h1></span></CardTitle>
+            <CardTitle style={{color: '#fff', height: '550px', background: 'url(http://www.monterglobal.com//wp-content/uploads/2017/03/fad303c6-182f-4ab4-a7f5-e1ede5c72d98.jpg) center / cover'}}><span className="logo"><h1>TRAVERSE-LOGISTICS</h1></span></CardTitle>
             <CardText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Mauris sagittis pellentesque lacus eleifend lacinia...
+                All in one dispatch solutions
             </CardText>
             <CardActions border>
-                <Button colored>Get Started</Button>
+                <Button colored></Button>
             </CardActions>
             <CardMenu style={{color: '#fff'}}>
                 <IconButton name="share" />

@@ -38,7 +38,7 @@ class signup extends Component {
         const user = {
             fname: this.state.fname,
             company: this.state.company,
-            phone: this.state.phone,
+            phone:"+1"+this.state.phone,
             lname: this.state.lname,
             email: this.state.email,
             password: this.state.password,

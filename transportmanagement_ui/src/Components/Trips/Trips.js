@@ -9,7 +9,7 @@ const Trips=(props)=>{
                <React.Fragment>
                 <h4>Trips</h4>
             <div className="table-responsive">
-            <table className="table table-striped table-sm">
+            <table className="table table-sm">
                 <thead>
                     <tr>
                         <th>Trip_Id</th>
@@ -21,13 +21,13 @@ const Trips=(props)=>{
                         <th>Del Date</th>
                         <th>Pay</th>
                         <th>Driver</th>
-                        <th>Status</th>
-                        <th>Text</th>
+                         {/* <th>Status</th>
+                       <th>Text</th> */}
                     </tr>
                 </thead>
                 <tbody>
                 {props.listOfTrips.map((trip, index) =>
-                <tr key={index}>
+                <tr className="RowColor" key={index}>
                         <td>{trip.bol}</td>
                         <td>{trip.pcompany} <br/>{trip.paddress.street}<br/> {trip.paddress.city} {trip.paddress.zip}</td>
                         <td>{trip.picktime}</td>
@@ -37,8 +37,13 @@ const Trips=(props)=>{
                         <td>{trip.ddate}</td>
                         <td>${trip.payamount}</td>
                         <td>{trip.driverid}</td>
-                        <td>{trip.tripstatus}</td>
-                        <td>Status</td>
+                        {/*<td><select name="tripStatus" value={trip.tripstatus} onChange={this.inputchangeHandler} >
+                                <option value="null"></option>
+                                <option value="Fuel">Enroute</option>
+                                <option value="Toll">Delivered</option>
+                            </select></td>
+                         <td>{trip.tripstatus}</td>
+                        <td>Status</td> */}
                     </tr> 
                 )} 
                 </tbody>

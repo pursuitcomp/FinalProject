@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,14 +20,12 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
 import entity.MyMessage;
-import entity.Paystubs;
-import entity.Trips;
 import repository.MessageRepository;
 
 
 @RestController
 @CrossOrigin
-public class SmsController {
+public class SmsController{
 	@Autowired
 	MessageRepository messageRepository;
 
@@ -36,7 +35,7 @@ public class SmsController {
     
     //
     @RequestMapping(value = "/sendsms", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> sendSms(@RequestBody MyMessage sms ) {
+	public ResponseEntity<List<MyMessage>> sendSms(@RequestBody MyMessage sms ) {
     	
     	messageRepository.save(sms);
     	
@@ -46,11 +45,13 @@ public class SmsController {
 	        new PhoneNumber(sms.getSmsFrom()), 
 	        sms.getBody()).create();
 
-	    System.out.println(message.getSid());
+    System.out.println(message.getSid());
 	  
 		
 		//userService.saveUser(user);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+    	List<MyMessage> smslist = messageRepository.findAll();
+    	return new ResponseEntity<>(smslist,HttpStatus.CREATED);
+		
 	}
     
     @RequestMapping(value = "/findAllsms", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
@@ -60,8 +61,16 @@ public class SmsController {
 		return new ResponseEntity<>(smslist,HttpStatus.OK);
 	}
     
+    
+    //receive sms
     @RequestMapping(value = "/replysms", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> replySms(@RequestBody MyMessage sms ) {
+	public ResponseEntity<HttpStatus> replySms( @RequestParam("Body") String body,@RequestParam("From") String from ) {
+    	 //res.type("application/xml");
+    	//tripMessage,from,to,author
+    	boolean author=false;
+    	String to=TWILIO_NUMBER;
+    	MyMessage incomingsms=new MyMessage(body,from,to,author);
+    	messageRepository.save(incomingsms);
     	
     	return new ResponseEntity<>(HttpStatus.OK);
     }

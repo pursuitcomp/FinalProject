@@ -11,6 +11,7 @@ import Paystubs from '../Paystubs/paystubs';
 import Chat from '../Chat/Chat';
 //import Map from '../Maps/mymaps'
 import MapContainer from '../Maps/MapContainer';
+import PayStubReport from '../PayReports/payStubReport'
 class Dashboard extends Component {
 
 
@@ -22,12 +23,19 @@ class Dashboard extends Component {
         smsDriverNum: '',
         messages: [],
         tempMesseges: [],
-        TWILIONUMBER:"+13145820488",
+        payStubs:[],
+        TWILIONUMBER: "+13145820488",
         api_Key: 'AIzaSyD5n2AVjF1Ys5OmdhM-VVILV6Og9krTHhk',
+       
     }
 
     //get users data from dp
     componentDidMount() {
+        this.getData();
+    }
+
+    getData = (event) => {
+
         //GET ALL USERS
         Axios.get('http://localhost:8080/findAllUser')
             .then(response => {
@@ -46,10 +54,11 @@ class Dashboard extends Component {
                 });
 
             });
-            //Get messages
-            Axios.get('http://localhost:8080/findAllsms')
+        //Get messages
+        Axios.get('http://localhost:8080/findAllsms')
             .then(response => {
                 const smsArray = response.data;
+               // console.log(smsArray);
                 this.setState({
                     messages: smsArray
                 });
@@ -59,20 +68,36 @@ class Dashboard extends Component {
 
     sendSmsHandler = (event) => {
         // alert('A name was submitted: ' + this.state.message);
-        // event.preventDefault();
-        const message = {
-            smsTo:this.state.smsDriverNum,
-            smsFrom:this.state.TWILIONUMBER,
-            body: this.state.message,
-            author:true,
-        }
-        
-this.sendsms(message);
+        event.preventDefault();
+        //check if message input is empty dont send empty message
+        if (this.state.message !== "") {
 
+            const message = {
+                smsTo: this.state.smsDriverNum,
+                smsFrom: this.state.TWILIONUMBER,
+                body: this.state.message,
+                author: true,
+            }
+
+            this.sendsms(message);
+        }
     }
-//send sms
-    sendsms=(message)=>{
+    //send sms
+    sendsms = (message) => {
         Axios.post('http://localhost:8080/sendsms', message)
+        .then(response => {
+            const smsArray = response.data;
+            console.log("Updated text",smsArray);
+            this.setState({
+                messages: smsArray,
+                message: '',
+            });
+        });
+
+    
+        //add sent message to the array
+
+        this.addMessageArray(this.state.smsDriverNum);
     }
 
     typeChangeHandler = (event) => {
@@ -83,9 +108,22 @@ this.sendsms(message);
         this.setState({
             [name]: value
         });
-       
-        this.addMessageArray(value);
 
+        // this.addMessageArray(value);
+
+    }
+
+    selectContactChangeHandler = (event) => {
+        const value = event.target.value;
+        const name = event.target.name;
+        //set number selecte
+        this.setState({
+            [name]: value
+        });
+        //get message from db
+        this.getData();
+        // update messages list
+        this.addMessageArray(value);
     }
 
     //add items to array that displays messages for current chat
@@ -98,6 +136,7 @@ this.sendsms(message);
             }
 
         })//end loop
+
         //set state add new messages array
         this.setState({
             tempMesseges: newState,
@@ -115,6 +154,7 @@ this.sendsms(message);
             pick: value
 
         });
+
     }
 
     //select driver whole paystub you want to process from paystub component
@@ -126,10 +166,6 @@ this.sendsms(message);
     // this.state.drivers
 
     //     }
-
-
-
-
 
     render() {
         let page;
@@ -166,14 +202,16 @@ this.sendsms(message);
                 message={this.state.message}
                 typeChangeHandler={this.typeChangeHandler}
                 tempMesseges={this.state.tempMesseges}
+                selectContactChangeHandler={this.selectContactChangeHandler}
 
             />)
         }
         else if (this.state.pick === 'map') {
             page = (<MapContainer google={this.props.google} />)
+
+        }else if (this.state.pick === 'payStubReport') {
+            page = (<PayStubReport drivers={this.state.drivers}/>)
         }
-
-
         return (
 
             <div className="dash">
@@ -201,44 +239,44 @@ this.sendsms(message);
                                             Dashboard <span className="sr-only">(current)</span>
                                         </a>
                                     </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">
+                                    
+                                        <button className="sidebtn" href="#">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
                                             Trips
-                </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">
+                </button>
+                                    
+                                    
+                                        <button className="sidebtn" value="payStubReport" onClick={this.switchButtons}  href="#">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                                            Drivers
-                </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                            Email
-                </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                                             PayStubs
-                </a>
-                                    </li>
+                </button>
+                                    
+                                    
+                                        <button className="sidebtn" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                            Drivers
+                </button>
+                                    
+                                    
+                                        <button className="sidebtn" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                                            Geolocation
+                </button>
+                                   
                                     <li className="nav-item">
-                                        <a className="nav-link" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
+                                        <button className="sidebtn" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                                             Integrations
-                </a>
+                </button>
                                     </li>
                                 </ul>
 
-                                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                {/* <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                                     <span>Saved reports</span>
                                     <a className="d-flex align-items-center text-muted" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                                     </a>
-                                </h6>
+                                </h6> */}
                                 <ul className="nav flex-column mb-2">
                                     {/* <li className="nav-item">
                                         <a className="nav-link" href="https://getbootstrap.com/docs/4.1/examples/dashboard/#">
@@ -277,13 +315,13 @@ this.sendsms(message);
                                 <div className="btn-toolbar mb-2 mb-md-0">
                                     <div className="btn-group mr-2">
 
-                                        <button value="driver" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Drivers</button>
-                                        <button value="trips" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Trips</button>
-                                        <button value="addtrip" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Add Trip</button>
-                                        <button value="adddriver" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Add Driver</button>
-                                        <button value="paystubs" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">PayStubs</button>
-                                        {/* <button value="chat" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Chat</button> */}
-                                        <button value="map" onClick={this.switchButtons} className="btn btn-sm btn-outline-secondary">Maps</button>
+                                        <button  value="driver" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Drivers</button>
+                                        <button value="trips" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Trips</button>
+                                        <button value="addtrip" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Add Trip</button>
+                                        <button value="adddriver" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Add Driver</button>
+                                        <button value="paystubs" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">PayStubs</button>
+                                        <button value="chat" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Chat</button>
+                                        {/* <button value="map" onClick={this.switchButtons} className="btn btn-sm topbtn btn-outline-secondary">Maps</button> */}
                                     </div>
                                     <button className="btn btn-sm btn-outline-secondary dropdown-toggle">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>

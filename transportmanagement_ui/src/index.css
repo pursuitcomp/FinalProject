@@ -110,3 +110,35 @@ th, td {
   bottom:0;
   margin-top: 80%;
 }
+.RowColor:nth-child(odd){
+  background-color: rgb(194, 182, 182);
+}
+.expenseRowColor:nth-child(odd){
+  background-color: rgb(192, 186, 160);
+}
+.date{
+font-size:10px;
+font:italic;
+
+}
+.sidebtn{
+width: 80%;
+text-align:left;
+margin-top: 10px;
+border-radius: 4px;
+padding: 6px;
+vertical-align: center;
+margin-left: 10%;
+margin-right: 10%;
+
+/* background-color: rgb(193, 197, 209); */
+}
+.topbtn{
+  /* background-color: rgb(217, 219, 224); */
+  color: black;
+  border-radius: 4px;
+}
+.table-responsive{
+align-content: right;
+float: right;
+}

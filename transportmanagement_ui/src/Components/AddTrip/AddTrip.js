@@ -26,7 +26,6 @@ pcompany:'',
 dcompany:'',
 pphone:'',
 dphone:'',
-
 drivers:[]
 }
 
@@ -61,7 +60,7 @@ driverPhone=(email)=>{
 addTripSubmitHandler=(event)=>{
     event.preventDefault();
     const trip={
-        tripstatus:this.state.tripstatus,
+        tripstatus:'Assigned',
         driverid:this.state.driver,
         payamount:this.state.pay,
         bol:this.state.bol,
@@ -90,7 +89,7 @@ daddress:{
 //dcompany:'',
 
     }
-
+//Save trip to database
     Axios.post('http://localhost:8080/addTrip', trip)
             .then(function (response) {
                 

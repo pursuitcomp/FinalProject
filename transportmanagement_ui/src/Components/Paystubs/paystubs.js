@@ -112,7 +112,7 @@ class paystubs extends Component {
         //create expenses rows 
         let row = (
             <React.Fragment>
-                <th colSpan="4"></th>
+                <th colSpan="5"></th>
                 <td key={rowName}>{rowName}</td>
                 <td key="amount">  {rowValue}</td>
             </React.Fragment>
@@ -128,10 +128,7 @@ class paystubs extends Component {
             [rowName]: rowValue,
             showTable: true,
         })
-        console.log(rowName)
-        console.log(rowValue)
-        console.log("expense",this.state.expenseType)
-        console.log("dl",this.state.paydriver.email)
+       
     }
 
     removeRow = (index) => {
@@ -166,7 +163,6 @@ class paystubs extends Component {
                 console.log(paystub)
             })
 
-
     }
 
 
@@ -178,15 +174,18 @@ class paystubs extends Component {
         if (this.state.showTable) {
 
             payTable = (
-
-                <table class="table table-hover">
+<div className="table-responsive">
+                <table class="table payTable table-hover">
                     <thead>
                         <tr>
-                            <th scope="col" colSpan="5"></th>
+                            <th scope="col" colSpan="6"></th>
 
                             <th scope="col">Name: {this.state.paydriver.fname} {this.state.paydriver.lname}<br />
                                 Email: {this.state.paydriver.email}<br />
-                                Date: 2/3/4434<br />
+                                {this.state.paydriver.address.street} <br />
+                                {this.state.paydriver.address.city} { this.state.paydriver.address.state} { this.state.paydriver.address.zip}<br />
+                                
+                                
                                 Week: 34
                             </th>
 
@@ -197,6 +196,7 @@ class paystubs extends Component {
                             <th scope="col">From</th>
                             <th scope="col">To </th>
                             <th scope="col">Notes</th>
+                            <th scope="col"></th>
                             <th scope="col">Amount </th>
 
                         </tr>
@@ -204,18 +204,19 @@ class paystubs extends Component {
                     </thead>
                     <tbody>
                         {this.state.drivertrips.map((trip, index) =>
-                            <tr key={index}>
-                                <th scope="row">{trip.pdate}</th>
+                            <tr className="RowColor" key={index}>
+                                <td scope="row">{trip.pdate}</td>
                                 <td>{trip.bol}</td>
                                 <td >{trip.pcompany}</td>
                                 <td>{trip.dcompany}</td>
                                 <td >{trip.notes}</td>
+                                <td ></td>
                                 <td >{trip.payamount}</td>
                             </tr>
                         )}
 
                         <tr>
-                            <th colSpan="4"></th>
+                            <th colSpan="5"></th>
 
                             <th>Expenses</th>
                             <th>Amount</th>
@@ -223,20 +224,21 @@ class paystubs extends Component {
 
                         {this.state.expensesRows.map((row, index) =>
 
-                            <tr onClick={() => this.removeRow(index)} key={index}>
+                            <tr  onClick={() => this.removeRow(index)} key={index}>
                                 {row}
                             </tr>
                         )}
 
                         <tr>
-                            <th colSpan="4"></th>
-
+                            <th colSpan="5"></th>
+                            
                             <th>Total</th>
                             <td>{this.state.sumPay - this.state.sumExpenses}</td>
                         </tr>
 
                     </tbody>
                 </table>
+                </div>
 
             );
         } else {
@@ -270,7 +272,6 @@ class paystubs extends Component {
                                 <option value="Dispacher">Dispacher</option>
                                 <option value="Repairs">Repairs</option>
                                 <option value="Maintenace">Maintenance</option>
-
                             </select>
                             <input name="expenseAmount" onChange={this.inputchangeHandler} value={this.state.expenseAmount} placeholder="Enter Amount" />
                             <button value="driver" onClick={this.addExpenseRow} className="btn btn-sm btn-outline-secondary">Add Expense</button>

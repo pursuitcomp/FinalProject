@@ -20,7 +20,7 @@ export class MapContainer extends Component {
   }
   render() {
     if (!this.props.google) {
-      return <div>Loading...</div>;
+      return <div>Loading... map</div>;
     }
 
     return (

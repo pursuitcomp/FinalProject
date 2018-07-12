@@ -8,7 +8,7 @@ const Drivers=(props)=>{
             <React.Fragment>
             <h4>Drivers</h4>
         <div className="table-responsive">
-        <table className="table table-striped table-sm">
+        <table className="table  table-sm">
             <thead>
                 <tr>
                 <td></td>
@@ -26,7 +26,7 @@ const Drivers=(props)=>{
 
             <tbody>
           { props.listOfDrivers.map((driver, index) =>
-                <tr key={index}>
+                <tr className="RowColor" key={index}>
                   <th> <ListItemContent icon="person"></ListItemContent></th> 
                     <td>{driver.phone}</td>
                     <td>{driver.email}</td>

@@ -12,7 +12,10 @@ class Message extends Component {
         return (
             <div className={chatType}>
             <div className="user-photo"></div>
-            <p className="chat-message">{this.props.sms.body}</p>
+            <p className="chat-message">
+            
+            {this.props.sms.body}<br/>
+            <span className="date">{this.props.sms.date}</span></p>
         </div>
         );
     }
